@@ -19,14 +19,14 @@ public class Order {
     private Long id;
 
     // 연관 관계의 주인
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id") // fk
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // order에 저장하면 orderItems에도 저장이 되게
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
     @JoinColumn(name="delivery_id")
     private Delivery delivery;
 
@@ -34,4 +34,29 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus statusl; // 주문상태 ORDER, CANCEL
+
+    //== 연관관계 메서드 ==//
+    public void setMember(Member member){
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public static void main(String[] args){
+        Member member = new Member();
+        Order order = new Order();
+
+        member.getOrders().add(order);
+        order.setMember(member);
+    }
+
+    public void addOrderItem(OrderItem orderItem){
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void setDelivery(Delivery delivery){
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
+
 }
