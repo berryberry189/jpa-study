@@ -4,3 +4,13 @@
 
 ⭐  spring-boot-devtools 라이브러리를 추가하면, html 파일을 컴파일만 해주면 서버 재시작 없이
 View 파일 변경이 가능하다.
+
+
+⭐  @Enumerated 
+
+>(Optional) The type used in mapping an enum type. 
+
+enum 값을 어떤 형태로 저장할지 
+- EnumType.STRING : 문자열 그대로 저장
+- EnumType.ORDINAL : enum의 순서값(int)을 저장
+
