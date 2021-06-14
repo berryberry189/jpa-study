@@ -14,3 +14,5 @@ enum 값을 어떤 형태로 저장할지
 - EnumType.STRING : 문자열 그대로 저장
 - EnumType.ORDINAL : enum의 순서값(int)을 저장
 
+
+ 
