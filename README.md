@@ -8,7 +8,7 @@
 View 파일 변경이 가능하다.
 
 
-⭐  **@Enumerated **
+⭐  **@Enumerated **  
 
 >(Optional) The type used in mapping an enum type. 
 
