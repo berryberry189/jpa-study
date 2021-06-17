@@ -35,3 +35,34 @@ enum 값을 어떤 형태로 저장할지
 
 - readOnly=true : 데이터의 변경이 없는 읽기 전용 메서드에 사용, 영속성 컨텍스트를 플러시 하지 않으므로 약간의 성능 향상(읽기 전용에는 다 적용)
 - 데이터베이스 드라이버가 지원하면 DB에서 성능 향상
+- SpringBootTest일 경우,  SpringBoot가 알아서 RollBack처리한다 ⇒ RollBack처리 하기 싫으면 @RollBack(false)를 써주면 된다.
+
+⭐  **엔티티 매니저 ( EntityManager )**
+
+- 엔티티를 저장, 수정, 삭제, 조회등 엔티티와 관련된 작업을 수행
+
+```java
+EntityManager em = emf.createEntityManager();
+
+em.find();    // 엔티티 조회
+em.persist(); // 엔티티 저장
+em.remove();  // 엔티티 삭제
+em.flush();   // 영속성 컨텍스트 내용을 데이터베이스에 반영
+em.detach();  // 엔티티를 준영속 상태로 전환
+em.merge();   // 준영속 상태의 엔티티를 영속상태로 변경
+em.clear();   // 영속성 컨텍스트 초기화
+em.close();   // 영속성 컨텍스트 종료
+
+```
+
+
+
+⭐  **영속성 컨텍스트 ( Persistence Context )**
+
+- 엔티티 매니저는 내부에 영속성 컨텍스트를 두어서 엔티티들을 관리한다.
+- 영속성 컨텍스트는 **엔티티를 영구히 저장하는 환경**이다.  →  em.persist(entity);
+- 엔티티는 flush() 호출 시 데이터베이스에 반영된다. 
+   ⇒ 1. em.flush(entity); 직접호출 
+      2. 트랜잭션 커밋 시 flush 자동 호출
+      3. JPQL 쿼리 실행 시 flush 자동 호출
+
