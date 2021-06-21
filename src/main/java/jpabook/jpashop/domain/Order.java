@@ -59,7 +59,7 @@ public class Order {
         delivery.setOrder(this);
     }
 
-    // 생성 메서드
+    // 생성 메서드 -  Order를 생성할때 무조건 호출
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){
         Order order = new Order();
         order.setMember(member);
@@ -82,6 +82,7 @@ public class Order {
 
         this.setStatus(OrderStatus.CANCEL);
         for(OrderItem orderItem : orderItems){
+            // 재고 원복
             orderItem.cancel();
         }
     }
@@ -93,6 +94,7 @@ public class Order {
             totalPrice += orderItem.getTotalPrice();
         }
         return totalPrice;
+        // == return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
     }
 
 
