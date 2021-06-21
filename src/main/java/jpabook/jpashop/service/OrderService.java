@@ -38,6 +38,21 @@ public class OrderService {
 
         // 주문 저장
         orderRepository.save(order);
+        /**   ↓
+         * Order.java
+         *     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+         *     private List<OrderItem> orderItems = new ArrayList<>();
+         *
+         *     @OneToOne(fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
+         *     @JoinColumn(name="delivery_id")
+         *     private Delivery delivery;
+         *
+         *     => cascade = CascadeType.ALL로 선언되어 있으므로
+         *        Order가 persist될때  OrderItem과 Delivery도 persist된다
+         *        but, order뿐만이 아니라 다른곳에서도 OrderItem과 Delivery를 중요하게 사용한다면
+         *        cascade를 사용하면 안된다.
+         */
+
         return order.getId();
     }
 

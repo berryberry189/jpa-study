@@ -8,7 +8,7 @@ import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import jpabook.jpashop.repository.OrderRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,7 +62,7 @@ class OrderServiceTest {
         int orderCount = 101; // 재고보다 많은 수량
 
         // when
-        orderService.order(member.getId(), item.getId(), orderCount)
+        orderService.order(member.getId(), item.getId(), orderCount);
 
         // then
         fail("재고 수량 부족으로 예외발생");
