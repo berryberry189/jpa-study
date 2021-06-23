@@ -71,11 +71,15 @@ public class OrderRepository {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Order> cq = cb.createQuery(Order.class);
+
+        // -- 루트 클래스 (조회를 시작할 클래스)
         Root<Order> o = cq.from(Order.class);
         Join<Order, Member> m = o.join("member", JoinType.INNER);
 
         List<Predicate> criteria = new ArrayList<>();
 
+
+        // -- 쿼리 생성
         // 주문 상태 검색
         if(orderSearch.getOrderStatus() != null){
             Predicate status = cb.equal(o.get("status"), orderSearch.getOrderStatus());
