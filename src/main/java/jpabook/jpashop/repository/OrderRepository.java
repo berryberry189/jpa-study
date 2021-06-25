@@ -28,6 +28,18 @@ public class OrderRepository {
     }
 
     public List<Order> findAll(OrderSearch orderSearch){
+        /** 값이 다 있다는 가정의
+        return em.createQuery("select o from Order o join o.member m"+
+                "where o.status = :status" +
+                "and m.name line :name", Order.class)
+                .setParameter("status", orderSearch.getOrderStatus())
+                .setParameter("name", orderSearch.getMemberName())
+                // .setFirstResult(100) 페이징 처리 스타트 포지션
+                .setMaxResults(1000) // 최대 1000건
+                .getResultList();
+         */
+
+        /** 동적쿼리 ↓  - but, 실무에서는 이렇게 사용하지는 않는다. */
 
         String jpql = "select o from Order o join o.member m ";
         boolean isFirstCondition = true;
@@ -67,6 +79,10 @@ public class OrderRepository {
         return query.getResultList();
     }
 
+    /**
+     * JPA Criteria
+     * 이 방법도 권장 X ( 실무에서 사용 X, 유지보수성이 너무 안좋음 )
+     */
     public List<Order> findAllCriteria(OrderSearch orderSearch){
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -77,7 +93,6 @@ public class OrderRepository {
         Join<Order, Member> m = o.join("member", JoinType.INNER);
 
         List<Predicate> criteria = new ArrayList<>();
-
 
         // -- 쿼리 생성
         // 주문 상태 검색
