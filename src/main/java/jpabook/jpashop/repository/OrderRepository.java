@@ -41,41 +41,38 @@ public class OrderRepository {
 
         /** 동적쿼리 ↓  - but, 실무에서는 이렇게 사용하지는 않는다. */
 
-        String jpql = "select o from Order o join o.member m ";
+        String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
 
         // 주문 상태 검색
-        if(orderSearch.getOrderStatus() != null){
-            if(isFirstCondition){
+        if (orderSearch.getOrderStatus() != null) {
+            if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
-            }else{
+            } else {
                 jpql += " and";
             }
             jpql += " o.status = :status";
         }
 
         // 회원 이름 검색
-        if(StringUtils.hasText(orderSearch.getMemberName())){
-            if(isFirstCondition){
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
-            }else{
+            } else {
                 jpql += " and";
             }
             jpql += " m.name like :name";
         }
-
-        TypedQuery<Order> query = em.createQuery(jpql, Order.class).setMaxResults(1000); // 최대 1000건
-
-        if(orderSearch.getOrderStatus() != null){
+        TypedQuery<Order> query = em.createQuery(jpql, Order.class)
+                .setMaxResults(1000); //최대 1000건
+        if (orderSearch.getOrderStatus() != null) {
             query = query.setParameter("status", orderSearch.getOrderStatus());
         }
-
-        if(orderSearch.getMemberName() != null){
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
             query = query.setParameter("name", orderSearch.getMemberName());
         }
-
         return query.getResultList();
     }
 
