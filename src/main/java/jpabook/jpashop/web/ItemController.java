@@ -31,7 +31,7 @@ public class ItemController {
     @GetMapping(value = "/items/new")
     public String createForm(Model model){
         model.addAttribute("form", new BookForm());
-        return "item/createItemForm";
+        return "items/createItemForm";
     }
 
     // 상품 등록
@@ -67,14 +67,22 @@ public class ItemController {
     // 상품 수정
     @PostMapping(value = "/items/{itemId}/edit")
     public String updateItem(@ModelAttribute("form") BookForm form) {
-        Book book = new Book();
+
+        // 이미 DB에 저장 되어있던 값을 가져온 것 -> 준영속 엔티티
+        // 준영속 엔티티는 jpa가 관리하지 않기때문에 자동적으로 update가 일어나지 않는 문제가 발생 => merge
+        /*Book book = new Book();
         book.setId(form.getId());
         book.setName(form.getName());
         book.setPrice(form.getPrice());
         book.setStockQuantity(form.getStockQuantity());
         book.setAuthor(form.getAuthor());
         book.setIsbn(form.getIsbn());
-        itemService.saveItem(book);
+        itemService.saveItem(book)*/
+
+        // 유지보수성 더 좋은 코드
+        // 파라미터가 너무 많으면 dto를 만들자
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice(), form.getStockQuantity());
+
         return "redirect:/items";
     }
 
