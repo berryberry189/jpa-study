@@ -1,7 +1,7 @@
 # jpa-study
 김영한님   [실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1/dashboard)
 
-
+[실전! 스프링 부트와 JPA 활용2 - API 개발과 성능 최적화](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-API%EA%B0%9C%EB%B0%9C-%EC%84%B1%EB%8A%A5%EC%B5%9C%EC%A0%81%ED%99%94/dashboard)
 
 
 ⭐  spring-boot-devtools 라이브러리를 추가하면, html 파일을 컴파일만 해주면 서버 재시작 없이
@@ -55,8 +55,6 @@ em.close();   // 영속성 컨텍스트 종료
 
 ```
 
-
-
 ⭐  **영속성 컨텍스트 ( Persistence Context )**
 
 - 엔티티 매니저는 내부에 영속성 컨텍스트를 두어서 엔티티들을 관리한다.
@@ -66,3 +64,8 @@ em.close();   // 영속성 컨텍스트 종료
       2. 트랜잭션 커밋 시 flush 자동 호출.    
       3. JPQL 쿼리 실행 시 flush 자동 호출. 
 
+
+# API 개발
+
+⭐ api 요청과 응답은 entity를 그대로 쓰면 안된다!
+   api 스펙에 맞는 별도의 dto 생성이 필수이다. => 유지보수성 ↑
