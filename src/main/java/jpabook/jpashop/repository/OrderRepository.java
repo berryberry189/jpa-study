@@ -118,4 +118,21 @@ public class OrderRepository {
                             " join fetch o.delivery d", Order.class
         ).getResultList();
     }
+
+    /**
+     * distinct
+     * 1. DB에 distinct키워드를 날려주고
+     * 2. 루트 엔티티가 중복인 경우에 애플리케이션에서 중복을 걸러준다.
+     */
+    // 컬렉션을 페치 조인하면 페이징이 불가능하다!!
+    // 컬렉션 페치조인은 1개만 사용할 수 있다.
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select distinct o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i", Order.class)
+                .getResultList();
+    }
 }
