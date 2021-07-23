@@ -68,8 +68,13 @@ public class OrderApiController {
     }
 
     @GetMapping("/api/v4/orders")
-    public List<OrderQueryDto> ordersV4(){
+    public List<OrderQueryDto> ordersV4(){ // n+1 문제가 있음
         return orderQueryRepository.findOrderQueryDtos();
+    }
+
+    @GetMapping("/api/v5/orders")
+    public List<OrderQueryDto> ordersV5(){ // 쿼리를 한번씩만 날림 ( 본 쿼리 + 리스트 쿼리 )
+        return orderQueryRepository.findAllByDto_optimization();
     }
 
     @Getter
