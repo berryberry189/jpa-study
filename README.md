@@ -110,3 +110,30 @@ public List<Order> findAllWithMemberDelivery() {
 - hibernate.default_batch_fetch_size , @BatchSize 를 적용 ⇒ **설정한 size 만큼 IN 쿼리로 조회**
     - hibernate.default_batch_fetch_size: 글로벌 설정 ( application.yml 등 ) ⇒ **100~1000권장**
     - @BatchSize: 개별 최적화( 컬렉션은 컬렉션 필드에, 엔티티는 엔티티 클래스에 적용 )
+
+
+### ⭐  OSIV ( Open Session In View )
+
+### spring.jpa.open-in-view : true (기본값)
+
+트랜잭션을 시작할때 영속성 컨텍스트가 DB 컨넥션을 가져온다.
+
+open-in-view가 켜져있으면 트랜잭션 끝날때 까지 DB로 반환을 안한다.
+
+트랜잭션이 끝나더라도 response가 나갈 때 까지 **영속성 컨텍스트를 유지**하고 response가 나갈 때 DB로 반환한다 ( **⇒ 지연로딩** )
+
+하지만 너무 오랫동안 DB 커넥션을 가지고 있으므로 트래픽이 중요한 애플리케이션에서는 커넥션이 모자랄 수 있다.
+
+이것이 결국 장애로 이어진다.
+
+### spring.jpa.open-in-view : false
+
+OSIV를 끄면 **트랜잭션을 종료할 때 영속성 컨텍스트를 닫고**, 데이터베이스 커넥션도 반환한다
+
+⇒ 커넥션 리소스를 낭비하지 않는다.
+
+OSIV를 끄면 **모든 지연로딩을 트랜잭션 안에서 처리**해야 한다. ⇒ 지연 로딩코드를 트랜잭션 안으로 넣어야 하는 단점이 있다. 
+
+그리고 view template에서 지연로딩이 동작하지않는다. 
+
+결론적으로 트랜잭션이 끝나기 전에 지연 로딩을 강제로 호출해 두어야 한다.
