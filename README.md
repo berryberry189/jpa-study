@@ -92,3 +92,21 @@ public List<Order> findAllWithMemberDelivery() {
 2. 필요하면 페치 조인으로 성능을 최적화 한다. 대부분의 성능 이슈가 해결된다.
 3. 그래도 안되면 DTO로 직접 조회하는 방법을 사용한다.
 4. 최후의 방법은 JPA가 제공하는 네이티브 SQL이나 스프링 JDBC Template을 사용해서 SQL을 직접사용한다.
+
+### ⭐  **컬렉션 조회 최적화**
+
+⇒ ex ) Order 기준으로 OrderItem(OneToMany) , Item이 필요
+
+- DTO 예제
+- 전부 페치조인 예제 but, 페이징 불가능
+
+### ⭐  **페이징과 한계 돌파**
+
+- 먼저 ToOne(OneToOne, ManyToOne) 관계를 모두 페치조인 한다
+
+    ⇒ ToOne 관계는 row수를 증가시키지 않으므로 페이징 쿼리에 영향을 주지 않는다.
+
+- 컬렉션은 지연 로딩으로 조회한다
+- hibernate.default_batch_fetch_size , @BatchSize 를 적용 ⇒ **설정한 size 만큼 IN 쿼리로 조회**
+    - hibernate.default_batch_fetch_size: 글로벌 설정 ( application.yml 등 ) ⇒ **100~1000권장**
+    - @BatchSize: 개별 최적화( 컬렉션은 컬렉션 필드에, 엔티티는 엔티티 클래스에 적용 )
